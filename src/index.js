@@ -44,28 +44,20 @@ function onError( err) {
 }
 
 function displayMarkup(data) {
-	console.log(data);
 
 	if (data.length === 1) {
 		const markup = data.reduce((markup, country) => markup + createMarkupForCounty(country), '');
 			clearMarkup(countryListRef);
 			countryInfoRef.innerHTML = markup;	
-		
-			
 	} else  {
-		console.log(data);
 		const list = data.reduce((markup, country) => markup + createMarkupForCounties(country), '');
 			clearMarkup(countryInfoRef);
 			countryListRef.innerHTML = list;
-		
 		}
-
 }
 
 function createMarkupForCounties({ name, flags }) {
 	return  `<li><img src =${flags.svg} alt='flags of ${name.official}' width=60 height=40/><p>${name.official}</p></li>`;
-
-
 };
 
 function createMarkupForCounty({ name, capital, population, flags, languages }) {
