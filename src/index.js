@@ -23,22 +23,20 @@ function onInput(e) {
   fetchCountries(country)
     .then(data => {
       if (data.length > 10) {
-        throw new Error(
+        Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
-      } else if (!data.length) {
-        clearMarkup(countryInfoRef);
-        clearMarkup(countryListRef);
-        throw new Error('There is no country with that name');
       } else {
         displayMarkup(data);
       }
     })
-    .catch(onError);
-}
-
-function onError(err) {
-  Notiflix.Notify.info(`${err}`);
+    .catch(error => {
+      if (error.message === '404') {
+        clearMarkup(countryInfoRef);
+        clearMarkup(countryListRef);
+        Notiflix.Notify.failure('Oops, there is no country with that name');
+      }
+    });
 }
 
 function displayMarkup(data) {
@@ -82,4 +80,3 @@ function createMarkupForCounty({
 function clearMarkup(element) {
   return (element.innerHTML = '');
 }
-
